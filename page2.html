@@ -196,7 +196,16 @@
                     nextButton.innerHTML = "▶ Next";
                     nextButton.onclick = nextDialogue; 
                 }
+            function checkOrientation() {
+                if (window.innerHeight > window.innerWidth) {
+                    overlay.style.display = "flex";
+                } else {
+                    overlay.style.display = "none";
+                }
+            }
 
+            checkOrientation();
+            window.addEventListener('resize', checkOrientation);
                 index++;
             }
         }
