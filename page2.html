@@ -97,16 +97,7 @@
             z-index: 10;
         }
 
-        @media only screen and (max-width: 767px) and (orientation: landscape) {
-            .container {
-                width: 100vw;
-                height: 56.25vw; 
-                max-width: 100%;
-                max-height: 100vh;
-            }
-        }
-        
-        @media only screen and (orientation: portrait) {
+        @media only screen and (max-width: 767px) and (orientation: portrait) {
             #overlay {
                 display: flex;
             }
@@ -136,7 +127,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             const audio = document.getElementById('bg-audio');
             const overlay = document.getElementById('overlay');
-
+            
             function checkOrientation() {
                 if (window.innerHeight > window.innerWidth) {
                     overlay.style.display = "flex";
@@ -147,14 +138,13 @@
 
             checkOrientation();
             window.addEventListener('resize', checkOrientation);
-    
+
             function enableAudioPlayback() {
                 if (audio.paused) {
                     audio.play().catch(error => console.log("Playback failed", error));
                 }
                 document.body.removeEventListener('click', enableAudioPlayback);
             }
-    
             document.body.addEventListener('click', enableAudioPlayback);
         });
 
@@ -169,10 +159,8 @@
         function nextDialogue() {
             if (index < dialogues.length) {
                 const dialogueData = dialogues[index];
-
                 document.getElementById("background").style.backgroundImage = `url('${dialogueData.background}')`;
                 document.getElementById("dialogue-text").textContent = dialogueData.text;
-                
                 const nameBox = document.getElementById("character-name");
                 if (dialogueData.speaker) {
                     nameBox.textContent = dialogueData.speaker;
@@ -180,18 +168,16 @@
                 } else {
                     nameBox.style.display = "none";
                 }
-
                 const dialogueBox = document.getElementById("dialogue-box");
                 dialogueBox.className = "dialogue-box " + (dialogueData.position === "center" ? "center-dialogue-box" : "bottom-dialogue-box");
                 dialogueBox.style.display = "block";
-
                 const nextButton = document.getElementById("next-button");
                 if (dialogueData.isLast) {
                     nextButton.innerHTML = `<a href="page3.html" style="text-decoration: none; color: rgb(255, 60, 60);">▶ Next</a>`;
-                    nextButton.onclick = null;
+                    nextButton.onclick = null; 
                 } else {
                     nextButton.innerHTML = "▶ Next";
-                    nextButton.onclick = nextDialogue;
+                    nextButton.onclick = nextDialogue; 
                 }
                 index++;
             }
@@ -200,6 +186,7 @@
     </script>
 </body>
 </html>
+
 
 
 
