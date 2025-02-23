@@ -36,39 +36,43 @@
                 color: whitesmoke;
             }
 
-         .container {
-        position: relative;
-        width: 80vw;
-        max-width: 960px;
+.container {
+    position: relative;
+    width: 80vw;
+    max-width: 960px;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: url('onlyroom.png') center/cover no-repeat;
+    justify-content: flex-end;
+    border: 2px solid black;
+    box-sizing: border-box;
+    overflow: hidden;
+    transition: background-image 0.5s ease-in-out;
+}
+
+/* 🔹 On small landscape screens: Scale down the container */
+@media only screen and (max-width: 767px) and (orientation: landscape) { 
+    .container {
+        width: 90vw;  
         height: auto;
+        max-width: 960px;
         aspect-ratio: 16 / 9;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background: url('onlyroom.png') center/cover no-repeat;
-        justify-content: flex-end;
-        border: 2px solid black;
-        box-sizing: border-box;
-        overflow: hidden;
-        transition: background-image 0.5s ease-in-out;
+        transform: scale(0.8); /* Shrinks it properly */
     }
+}
 
-    @media only screen and (max-width: 767px) and (orientation: landscape) { 
-        .container {
-            width: 90vw;  /* Scales properly in small landscape screens */
-            height: auto;
-            max-width: 960px;
-            aspect-ratio: 16 / 9;
-            transform: scale(0.85); /* Shrinks the content */
-        }
+/* 🔹 Portrait Mode: Show "Rotate Screen" Overlay */
+@media only screen and (max-width: 767px) and (orientation: portrait) { 
+    #overlay {
+        display: flex; 
+        position: fixed; /* Keeps it covering the screen */
+        width: 100vw;
+        height: 100vh;
     }
-
-    @media only screen and (min-width: 375px) and (orientation: portrait) { 
-        #overlay {
-            display: flex; /* Ensures overlay is shown in portrait mode */
-        }
-    }
-
+}
 
         .dialogue-box {
             width: 90%;
