@@ -15,27 +15,28 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            overflow: hidden;
             margin: 0;
         }
 
         .container {
-            position: relative;
-            width: min(90vw, 960px);
-            height: min(90vh, 540px);
+            width: 960px;
+            height: 540px;
             background: url('onlywillinud.png') center/cover no-repeat;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             align-items: center;
-            border: 2px solid black;
+            position: relative;
+            border: 2px solid black; 
             box-sizing: border-box;
+            overflow: hidden;
             transition: background-image 0.5s ease-in-out;
         }
 
         .dialogue-box {
             width: 90%;
-            height: auto;
-            min-height: 70px;
+            height: 70px;
             background: rgba(0, 0, 0, 0.7);
             padding: 15px;
             border-radius: 10px;
@@ -43,6 +44,7 @@
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
+            padding-top: 35px;
         }
 
         .center-dialogue-box { bottom: 40%; }
@@ -76,34 +78,12 @@
             transition: color 0.3s ease-in-out;
         }
 
-        .next-section:hover { color: rgb(203, 203, 203); }
-
-        @media (max-width: 767px) {
-            .container {
-                width: 100vw;
-                height: 100vh;
-            }
-        }
-
-        #overlay {
-            background: rgba(0, 0, 0, 0.8);
-            width: 100vw;
-            height: 100vh;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            text-align: center;
-            color: white;
-            font-size: 24px;
-            z-index: 10;
+        .next-section:hover {
+            color: rgb(203, 203, 203);
         }
     </style>
 </head>
 <body>
-    <div id="overlay">Please rotate your device</div>
     <audio id="bg-audio" loop>
         <source src="The Upside Down.mp3" type="audio/mpeg">
     </audio>
@@ -121,12 +101,14 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const audio = document.getElementById('bg-audio');
+    
             function enableAudioPlayback() {
                 if (audio.paused) {
                     audio.play().catch(error => console.log("Playback failed", error));
                 }
                 document.body.removeEventListener('click', enableAudioPlayback);
             }
+    
             document.body.addEventListener('click', enableAudioPlayback);
         });
 
@@ -143,6 +125,7 @@
             if (index < dialogues.length) {
                 document.getElementById("dialogue").textContent = dialogues[index].text;
                 let nameBox = document.getElementById("character-name");
+
                 if (dialogues[index].speaker) {
                     nameBox.textContent = dialogues[index].speaker;
                     nameBox.style.background = dialogues[index].color;
@@ -150,28 +133,25 @@
                 } else {
                     nameBox.style.display = "none";
                 }
+
                 if (dialogues[index].background) {
                     document.getElementById("scene-container").style.backgroundImage = `url('${dialogues[index].background}')`;
                 }
-                document.getElementById("dialogue-box").className = "dialogue-box " + (dialogues[index].position === "center" ? "center-dialogue-box" : "bottom-dialogue-box");
+
+                const dialogueBox = document.getElementById("dialogue-box");
+                dialogueBox.className = "dialogue-box " + (dialogues[index].position === "center" ? "center-dialogue-box" : "bottom-dialogue-box");
+
                 if (dialogues[index].speaker === "Demogorgon") {
+                    document.getElementById("will").style.opacity = "0";
+                    document.getElementById("demogorgon").style.opacity = "1";
                     document.querySelector(".next-section").setAttribute("onclick", "goToPage4()");
                 }
             }
         }
 
-        function checkOrientation() {
-            const overlay = document.getElementById("overlay");
-            if (window.innerHeight > window.innerWidth) {
-                overlay.style.display = "flex";
-            } else {
-                overlay.style.display = "none";
-            }
+        function goToPage4() {
+            window.location.href = 'page4.html';
         }
-        checkOrientation();
-        window.addEventListener('resize', checkOrientation);
-
-        function goToPage4() { window.location.href = 'page4.html'; }
     </script>
 </body>
 </html>
