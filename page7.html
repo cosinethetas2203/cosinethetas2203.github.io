@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+        
+        body {
+            font-family: "American Typewriter", "Special Elite", "Courier New", Courier, monospace;
+            text-align: center;
+            background-color: white;
+            color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        .container {
+            width: 960px;
+            height: 540px;
+            background: url('creelhouse.png') center/cover no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            border: 2px solid black;
+            box-sizing: border-box;
+            overflow: hidden;
+            transition: background-image 0.5s ease-in-out;
+        }
+
+        .dialogue-box {
+            width: 40%;
+            max-width: 400px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+            position: absolute;
+            text-align: left;
+        }
+
+        #intro-box {
+            text-align: center;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .next-section {
+            position: absolute;
+            bottom: 5px;
+            right: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 3px 10px;
+            background: transparent;
+            color: rgb(255, 255, 255);
+            cursor: pointer;
+        }
+
+        .next-section:hover { color: rgb(209, 209, 209); }
+
+        .clock {
+            width: 300px;
+            height: 600px;
+            background: url('clock.png') center/cover no-repeat;
+            position: absolute;
+            cursor: pointer;
+            display: none;
+        }
+
+        #benefits-box {
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: none;
+        }
+
+        #drawbacks-box {
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: none;
+        }
+
+        #eleven-box {
+            width: 90%;
+            height: 70px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding-top: 35px;
+            text-align: center;
+            display: none;
+        }
+
+        .character-name {
+            position: absolute;
+            top: -53px; 
+            left: 20px;
+            background: hotpink;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 12px 18px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            border-radius: 10px 10px 0 0;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <audio id="bgm" loop>
+        <source src="daldom with bg.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container" id="background">
+        <div id="intro-box" class="dialogue-box">
+            <p>While Generative AI is powerful, it comes with both benefits and limitations. Chime Vecna's Grandfather Clock by clicking on it to reveal the benefits and limitations!</p>
+            <div class="next-section" onclick="startClockInteraction()">▶ Next</div>
+        </div>
+
+        <div class="clock" id="clock" onclick="chimeClock()"></div>
+
+        <div class="dialogue-box" id="benefits-box">
+            <p><strong>Benefits:</strong></p>
+            <ul>
+                <li>Increases creativity (AI-assisted writing, design, and music)</li>
+                <li>Enhances productivity (automating repetitive tasks)</li>
+                <li>Personalization (AI-generated ads, chatbots)</li>
+                <li>Accessibility (text-to-speech for visually impaired users)</li>
+            </ul>
+        </div>
+
+        <div class="dialogue-box" id="drawbacks-box">
+            <p><strong>Limitations:</strong></p>
+            <ul>
+                <li>Misinformation & Deepfakes – AI can create fake but realistic content.</li>
+                <li>Bias in AI – AI models reflect biases in their training data.</li>
+                <li>Plagiarism & Copyright Issues – AI-generated content raises questions about ownership.</li>
+                <li>Job Displacement – Automation may replace certain jobs.</li>
+            </ul>
+            <div class="next-section" onclick="showElevenDialogue()">▶ Next</div>
+        </div>
+
+        <div id="eleven-box" class="dialogue-box">
+            <div class="character-name" id="eleven-name">Eleven</div>
+            <p id="eleven-dialogue">Will... you're making me worried.</p>
+            <div class="next-section" onclick="goToNextPage()">▶ Next</div>
+        </div>
+    </div>
+
+    <audio id="chime-sound" src="chime.mp3"></audio>
+    
+    <script>
+        function playBGM() {
+            const bgm = document.getElementById("bgm");
+            bgm.play().catch(err => console.log("Autoplay blocked:", err));
+        }
+        document.body.addEventListener("click", playBGM, { once: true });
+
+        function startClockInteraction() {
+            document.getElementById("intro-box").style.display = "none";
+            document.getElementById("clock").style.display = "block";
+        }
+
+        function chimeClock() {
+            const chimeSound = document.getElementById("chime-sound");
+            chimeSound.play();
+            setTimeout(() => chimeSound.play(), 500);
+            document.getElementById("benefits-box").style.display = "block";
+            document.getElementById("drawbacks-box").style.display = "block";
+        }
+
+        function showElevenDialogue() {
+            document.getElementById("background").style.backgroundImage = "url('elincreelhouse.png')";
+            document.getElementById("drawbacks-box").style.display = "none";
+            document.getElementById("benefits-box").style.display = "none";
+            document.getElementById("eleven-box").style.display = "block";
+            document.getElementById("eleven-name").style.display = "block";
+        }
+
+        function goToNextPage() {
+            window.location.href = 'page8.html';
+        }
+    </script>
+</body>
+</html>
+

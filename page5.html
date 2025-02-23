@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+
+        body {
+            font-family: "American Typewriter", "Special Elite", "Courier New", Courier, monospace;
+            text-align: center;
+            background-color: white;
+            color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        .container {
+            width: 960px;
+            height: 540px;
+            background: url('christmasbg.jpg') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            border: 2px solid black; 
+            box-sizing: border-box;
+            overflow: hidden;
+            transition: background-image 0.5s ease-in-out;
+        }
+
+        .dialogue-box {
+            width: 90%;
+            top: 0px; 
+            height: auto;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .character-name {
+            position: absolute;
+            top: -53px; 
+            left: 20px;
+            background: hotpink;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 12px 18px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            border-radius: 10px 10px 0 0;
+            display: none;
+        }
+
+        .next-section {
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 5px 15px;
+            background: transparent;
+            color: rgb(255, 255, 255);
+            cursor: pointer;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            transition: color 0.3s ease-in-out;
+        }
+
+        .next-section:hover { color: rgb(209, 209, 209); }
+
+        .lights-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+
+        .light {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            position: absolute;
+            transition: transform 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        .light:hover { transform: scale(1.2); }
+
+        .light.red { background-color: red; }
+        .light.blue { background-color: blue; }
+        .light.green { background-color: green; }
+        .light.yellow { background-color: yellow; }
+
+        .light-box {
+            display: none;
+            position: absolute;
+            width: 220px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            transform: translateX(-50%);
+            font-weight: bold;
+            color: white;
+        }
+
+        .light-box.red { background: rgba(255, 0, 0, 0.9); }
+        .light-box.blue { background: rgba(0, 0, 255, 0.9); }
+        .light-box.green { background: rgba(0, 128, 0, 0.9); }
+        .light-box.yellow { background: rgba(255, 255, 0, 0.9); color: black; }
+        .light:nth-child(1) { top: 35%; left: 55%; }
+        .light:nth-child(2) { top: 37%; left: 29%; }
+        .light:nth-child(3) { top: 58%; left: 15%; }
+        .light:nth-child(4) { top: 63%; left: 65%; }
+
+        .light-box:nth-child(5) { top: calc(35% + 60px); left: 55%; }
+        .light-box:nth-child(6) { top: calc(37% + 60px); left: 29%; }
+        .light-box:nth-child(7) { top: calc(58% + 60px); left: 15%; }
+        .light-box:nth-child(8) { top: calc(63% + 60px); left: 65%; }
+
+        #eleven-box {
+    position: absolute;
+    left: 50%;
+    bottom: 30px;
+    transform: translateX(-50%);
+    width: 90%;
+    height: 10%;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 5px; 
+    border-radius: 10px;
+    color: white;
+    text-align: center ;
+    display: none;
+}
+.bottom-dialogue-box {
+        bottom: 30px;
+        top: auto;
+        transform: translateX(-50%);
+        left: 50%;
+    }
+
+        #next-page {
+            display: none;
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 5px 15px;
+            background: hotpink;
+            color: white;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: background 0.3s ease-in-out;
+        }
+
+        #next-page:hover { background: rgb(247, 166, 207); }
+
+    </style>
+</head>
+<body>
+    <div class="container" id="background">
+        <div id="intro-box" class="dialogue-box">
+            <p>
+                <strong>What is Generative AI?</strong><br>
+                Generative AI models create new content based on patterns learned from large datasets.
+                Unlike traditional AI, which follows rules to analyse or classify data, Generative AI 
+                produces original outputs such as text, images, music, and videos. 
+                Hover over the different colors to find out more examples!
+            </p>
+            <div class="next-section" onclick="showLights()">▶ Next</div>
+        </div>
+
+        <div class="lights-container" id="lights-container">
+            <div class="light red" onmouseover="showInfo(0)" onmouseout="hideInfo(0)"></div>
+            <div class="light blue" onmouseover="showInfo(1)" onmouseout="hideInfo(1)"></div>
+            <div class="light green" onmouseover="showInfo(2)" onmouseout="hideInfo(2)"></div>
+            <div class="light yellow" onmouseover="showInfo(3)" onmouseout="hideInfo(3)"></div>
+
+            <div class="light-box red" id="light-box-0">ChatGPT: Writing, Summarising, Customer Support</div>
+            <div class="light-box blue" id="light-box-1">DALL·E / Midjourney: Art, Graphic Design, Marketing</div>
+            <div class="light-box green" id="light-box-2">Runway / Sora: Film Production, Advertising</div>
+            <div class="light-box yellow" id="light-box-3">Jukebox: AI-Composed Songs, Audio Synthesis</div>
+
+            <div class="next-section" id="next-eleven" onclick="showEleven()" style="display: none;">▶ Next</div>
+        </div>
+
+        <div id="eleven-box" class="dialogue-box bottom-dialogue-box" style="display: none;">
+            <div id="character-name" class="character-name">Eleven</div>
+            <p id="dialogue">Will?</p>
+            <div class="next-section" id="next-page6" onclick="goToNextPage()" style="display: none;">▶ Next</div>
+        </div>
+    </div>
+    <body>
+        <audio id="bgm" loop>
+            <source src="bonjovimusicsofter.mp3" type="audio/mpeg">
+        </audio>
+    <script>
+     function showEleven() {
+        document.getElementById("lights-container").style.display = "none";
+        document.getElementById("background").style.backgroundImage = "url('elchristmaslights.png')";
+        let elevenBox = document.getElementById("eleven-box");
+        elevenBox.style.display = "block";
+        elevenBox.classList.add("bottom-dialogue-box");
+        document.getElementById("character-name").style.display = "block";
+        document.getElementById("next-page6").style.display = "block";
+    }
+
+function goToNextPage() {
+    window.location.href = "page6.html";
+}
+
+        
+        function showLights() {
+    document.getElementById("intro-box").style.display = "none";
+    let lightsContainer = document.getElementById("lights-container");
+    lightsContainer.style.display = "block"; 
+}
+
+function showInfo(index) {
+    document.getElementById(`light-box-${index}`).style.display = "block";
+    document.getElementById("next-eleven").style.display = "block"; 
+}
+
+function hideInfo(index) {
+    document.getElementById(`light-box-${index}`).style.display = "none";
+}
+        function playBGM() {
+            const bgm = document.getElementById("bgm");
+            bgm.play().catch(err => console.log("Autoplay blocked:", err));
+        }
+        document.body.addEventListener("click", playBGM, { once: true });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

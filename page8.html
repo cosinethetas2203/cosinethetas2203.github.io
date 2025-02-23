@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+        
+        body {
+            font-family: "American Typewriter", "Special Elite", "Courier New", Courier, monospace;
+            text-align: center;
+            background-color: white;
+            color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        .container {
+    width: 960px;
+    height: 540px;
+    background: url('rainbowroom.png') center/cover no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border: 2px solid black;
+    box-sizing: border-box;
+    overflow: hidden;
+    transition: background-image 0.3s ease-in-out, opacity 0.3s ease-in-out; 
+    opacity: 1; 
+}
+
+
+        .paper-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 80%;
+            position: absolute;
+            display: none;
+        }
+
+        .paper {
+            width: 45%;
+        }
+
+        .dialogue-box {
+            width: 40%;
+            max-width: 400px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+            position: absolute;
+            text-align: left;
+        }
+
+        #ethics-box {
+            text-align: center;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .character-name {
+            position: absolute;
+            top: -32px;
+            left: 10px;
+            background: hotpink;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 10px 10px 0 0;
+            display: none;
+        }
+
+        .next-section {
+            position: absolute;
+            bottom: 5px;
+            right: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 3px 10px;
+            background: transparent;
+            color: hotpink;
+            cursor: pointer;
+            display: block;
+        }
+
+        .next-section:hover { color: rgb(247, 166, 207); }
+    </style>
+</head>
+<body>
+    
+    <audio id="bgm" loop>
+        <source src="Eerie & Scary Ambient (Royalty Free Music) - CURSE by Mehul Sharma.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="flip-sound" src="flip.mp3"></audio>
+
+    <div class="container" id="background">
+        <div id="ethics-box" class="dialogue-box">
+            <p><strong>How to be ethical when using Generative AI:</strong></p>
+            <p>Using AI responsibly is crucial to ensure fairness, accuracy, and safety. Here are some ethical guidelines to follow when using Generative AI:</p>
+            <div class="next-section" onclick="showEthicalPapers()">▶ Next</div>
+        </div>
+
+        <div class="paper-section" id="ethical-papers">
+            <img src="Ethicaluse1.png" alt="Ethical Use 1" class="paper">
+            <img src="Ethicaluse2.png" alt="Ethical Use 2" class="paper">
+        </div>
+
+        <div class="next-section" id="next-dialogue" onclick="showNextDialogue()" style="display: none;">▶ Next</div>
+        <div class="next-section" id="next-background" onclick="changeBackground()" style="display: none;">▶ Next</div>
+    </div>
+
+    <script>
+  function showEthicalPapers() {
+    document.getElementById("ethics-box").style.display = "none"; 
+    document.getElementById("ethical-papers").style.display = "flex";
+    document.getElementById("flip-sound").play();
+    
+    document.getElementById("next-dialogue").style.display = "block"; 
+}
+
+function showNextDialogue() {
+    document.getElementById("ethical-papers").style.display = "none";
+
+    document.querySelectorAll(".dialogue-box").forEach(box => box.remove());
+
+    let nextDialogue = document.createElement("div");
+    nextDialogue.className = "dialogue-box";
+    nextDialogue.innerHTML = "<p>Eleven suddenly remembers what she saw in Will's room, and noticed that he used AI unethically by copying directly from the Gen AI model</p><div class='next-section' onclick='showBottomDialogue()'>▶ Next</div>";
+    
+    document.getElementById("background").appendChild(nextDialogue);
+    
+    document.getElementById("next-dialogue").style.display = "none";
+}
+
+function showBottomDialogue() {
+    document.querySelectorAll(".dialogue-box").forEach(box => box.remove());
+
+    document.getElementById("background").style.backgroundImage = "url('elinrainbowroom1.png')";
+
+    let bottomDialogue = document.createElement("div");
+    bottomDialogue.className = "dialogue-box";
+    bottomDialogue.style.bottom = "30px";
+    bottomDialogue.innerHTML = "<div class='character-name'>Eleven</div><p> Is that why he's missing? Where could he have gone? </p><div class='next-section' onclick='showNewCenterDialogue()'>▶ Next</div>";
+    
+    document.getElementById("background").appendChild(bottomDialogue);
+    
+    document.querySelector('.character-name').style.display = 'block';
+    
+}
+
+
+function showNewCenterDialogue() {
+
+    document.querySelectorAll(".dialogue-box").forEach(box => box.remove());
+
+    document.getElementById("background").style.backgroundImage = "url('elinrainbowroom2.png')";
+
+    let newCenterDialogue = document.createElement("div");
+    newCenterDialogue.className = "dialogue-box";
+    newCenterDialogue.innerHTML = "<p>Eleven suddenly has an idea, she thought of using AI unethically again to find Will. </p><p>She asks the same GenAI model to help generate a simple story about herself, which she then passed off as hers by writing it on a paper and signing it off with her name, claiming that she wrote all of it. <div class='next-section' onclick='showNewBottomEleven()'>▶ Next</div>";
+    
+    document.getElementById("background").appendChild(newCenterDialogue);
+}
+
+function showNewBottomEleven() {
+
+    document.querySelectorAll(".dialogue-box").forEach(box => box.remove());
+
+    let newBottomDialogue = document.createElement("div");
+    newBottomDialogue.className = "dialogue-box";
+    newBottomDialogue.style.bottom = "30px";
+    newBottomDialogue.innerHTML = "<div class='character-name'>Eleven</div><p> I actually don't know if this is going to work.....</p><div class='next-section' onclick='redirectToNextPage()'>▶ Next</div>";
+    
+    document.getElementById("background").appendChild(newBottomDialogue);
+    
+    document.querySelector('.character-name').style.display = 'block';
+
+    document.getElementById("eleven").style.opacity = "1";
+}
+
+
+
+function playBGM() {
+            const bgm = document.getElementById("bgm");
+            bgm.play().catch(err => console.log("Autoplay blocked:", err));
+        }
+        document.body.addEventListener("click", playBGM, { once: true });
+
+function redirectToNextPage() {
+    window.location.href = "page9.html";
+}
+
+    </script>
+</body>
+</html>
+
+

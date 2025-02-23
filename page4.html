@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+
+        body {
+            font-family: "American Typewriter", "Special Elite", "Courier New", Courier, monospace;
+            text-align: center;
+            background-color: white;
+            color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        .container {
+            width: 960px;
+            height: 540px;
+            background: url('elinroom1.png') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            border: 2px solid black; 
+            box-sizing: border-box;
+            overflow: hidden;
+            transition: background-image 0.5s ease-in-out;
+        }
+
+        .dialogue-box {
+            width: 90%;
+            height: 70px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            padding-top: 35px;
+            text-align: center;
+        }
+
+        .bottom { bottom: 30px; }
+        .center { top: 50%; transform: translate(-50%, -50%); }
+
+        .character-name {
+            position: absolute;
+            top: -53px; 
+            left: 20px;
+            background: hotpink;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 12px 18px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            border-radius: 10px 10px 0 0;
+            display: none;
+        }
+
+        .next-section {
+            position: absolute;
+            bottom: 5px;
+            right: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 3px 10px;
+            background: transparent;
+            color: hotpink;
+            cursor: pointer;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            transition: color 0.3s ease-in-out;
+        }
+
+        .next-section:hover { color: rgb(247, 166, 207); }
+    </style>
+</head>
+<body>
+    <audio id="bg-audio" loop>
+        <source src="bonjovimusic.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container" id="background">
+        <div id="dialogue-box" class="dialogue-box center">
+            <div id="character-name" class="character-name">Eleven</div>
+            <p id="dialogue">Half the day has passed and Will hasn't been picking up Eleven's calls. Worried and confused, Eleven goes to Will's house to check up on him.</p>
+            <div class="next-section" onclick="nextDialogue()">▶ Next</div>
+        </div>
+    </div>
+
+    <script>
+        let dialogues = [
+            { text: "Half the day has passed and Will hasn't been picking up Eleven's calls. Worried and confused, Eleven goes to Will's house to check up on him.", position: "center", bg: "elinroom1.png", speaker: "Eleven" },
+            { text: "Will? Where have you been? We're supposed to go to Starcourt Mall today, but you haven't been picking up my calls.", position: "bottom", bg: "elinroom1.png", speaker: "Eleven" },
+            { text: "Just then, Eleven notices his computer with the Generative AI model he was using.", position: "center", bg: "elinroom2.png", speaker: "" },
+            { text: "Generative...AI...what is...that?", position: "bottom", bg: "elinroom2.png", speaker: "Eleven" },
+            { text: "You know what? I have no time to figure it out. I need to find Will and see what happened to him.", position: "bottom", bg: "elinroom2.png", speaker: "Eleven" }
+        ];
+
+        let index = 0;
+
+        function nextDialogue() {
+            index++;
+            if (index < dialogues.length) {
+                document.getElementById("dialogue").innerText = dialogues[index].text;
+                document.getElementById("dialogue-box").className = `dialogue-box ${dialogues[index].position}`;
+                document.getElementById("background").style.backgroundImage = `url('${dialogues[index].bg}')`;
+
+                let nameBox = document.getElementById("character-name");
+                if (dialogues[index].speaker) {
+                    nameBox.innerText = dialogues[index].speaker;
+                    nameBox.style.display = "block";
+                } else {
+                    nameBox.style.display = "none";
+                }
+            } else {
+                window.location.href = 'page5.html'; 
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const audio = document.getElementById('bg-audio');
+            function enableAudioPlayback() {
+                if (audio.paused) {
+                    audio.play().catch(error => console.log("Playback failed", error));
+                }
+                document.body.removeEventListener('click', enableAudioPlayback);
+            }
+            document.body.addEventListener('click', enableAudioPlayback);
+        });
+    </script>
+</body>
+</html>
+
+
+

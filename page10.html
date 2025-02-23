@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+
+        body {
+            font-family: "American Typewriter", "Special Elite", "Courier New", Courier, monospace;
+            text-align: center;
+            background-color: white;
+            color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        .container {
+            width: 960px;
+            height: 540px;
+            background: url('elanddemoinUDquiz.png') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            border: 2px solid black; 
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .quiz-container {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 80%;
+            position: relative;
+            top: 90px; 
+        }
+
+        .question {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .option {
+            display: block;
+            padding: 10px;
+            margin: 5px auto;
+            width: 80%;
+            cursor: pointer;
+            background: white;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-family: "American Typewriter", "Special Elite", "Courier New", Courier, monospace;
+        }
+
+        .option.correct {
+            background: green;
+            color: white;
+        }
+
+        .option.wrong {
+            background: red;
+            color: white;
+        }
+
+        .next-button, .retry-button {
+            display: none;
+            margin-top: 20px;
+            padding: 15px 30px;
+            font-size: 24px;
+            background-color: rgb(115, 9, 9);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-family: "Special Elite", cursive;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .next-button:hover, .retry-button:hover {
+            background-color: rgb(67, 1, 1);
+        }
+    </style>
+</head>
+<body>
+    <audio id="bg-audio" loop>
+        <source src="tensemusic.mp3" type="audio/mpeg">
+    </audio>
+    <div class="container">
+        <div class="quiz-container" id="quiz">
+            <div class="question" id="question">Loading question...</div>
+            <div id="options"></div>
+            <button id="next-button" class="next-button" onclick="nextQuestion()">Next</button>
+            <button id="retry-button" class="retry-button" onclick="retryQuestion()">Try Again</button>
+        </div>
+    </div>
+
+    <audio id="correct-sound" src="correct.mp3"></audio>
+    <audio id="wrong-sound" src="chime.mp3"></audio>
+
+    <script>
+  document.addEventListener("click", function enableAudio() {
+    let correctSound = document.getElementById("correct-sound");
+    let wrongSound = document.getElementById("wrong-sound");
+
+    correctSound.muted = true;
+    correctSound.play().then(() => {
+        correctSound.pause();
+        correctSound.currentTime = 0;
+        correctSound.muted = false; 
+    }).catch(() => {});
+
+    wrongSound.muted = true;
+    wrongSound.play().then(() => {
+        wrongSound.pause();
+        wrongSound.currentTime = 0;
+        wrongSound.muted = false;
+    }).catch(() => {});
+
+    document.removeEventListener("click", enableAudio);
+});
+
+        const questions = [
+            { question: "What makes Generative AI different from traditional AI?", options: ["A) Generative AI follows strict rules to classify data", "B) Generative AI creates new content based on learned patterns", "C) Traditional AI generates original outputs like text and images", "D) Generative AI only performs calculations"], correct: 1 },
+            { question: "Which of the following is NOT an example of Generative AI?", options: ["A) ChatGPT", "B) Midjourney", "C) Google Search", "D) Runway"], correct: 2 },
+            { question: "What is the first step in how Generative AI works?", options: ["A) Generating new content", "B)  Processing data", "C) Training on large datasets", "D) Creating deepfakes"], correct: 2 },
+            { question: "What type of content can Generative AI produce?", options: ["A) Text and images", "B) Music and videos", "C) All of the above", "D) None of the above"], correct: 2 },
+            { question: "Which of the following is a benefit of Generative AI?", options: ["A) It increases creativity and productivity", "B) It always information that is 100% accurate", "C) It replaces human workers completely", "D) It never has ethical concerns"], correct: 0 },
+            { question: "What is a major limitation of Generative AI?", options: ["A) It improves accessibility for visually impaired users", "B) It always generates new and unbiased content", "C) It eliminates the need for human oversight", "D) It can spread misinformation and create deepfakes"], correct: 3 },
+            { question: "How can we use AI ethically?", options: ["A) Always label AI-generated content", "B) Assume AI always tells the truth", "C) Avoid crediting original creators ", "D) Share AI-generated content without fact-checking"], correct: 0 },
+            { question: "Why is bias a concern in Generative AI?", options: ["A) AI models can reflect biases in their training data", "B) AI is programmed to be completely neutral", "C) AI cannot process human-related data", "D) AI never makes incorrect assumptions"], correct: 0 },
+            { question: "How can Generative AI help with accessibility?", options: ["A) It can replace human creativity", "B) It can generate content for marketing", "C) It can create deepfakes", "D) It can provide text-to-speech for visually impaired users"], correct: 3 },
+            { question: "What is an example of Generative AI affecting jobs?", options: ["A) AI-generated ads making marketing more effective", "B) AI replacing certain repetitive or creative tasks", "C) AI always being factually correct", "D) AI eliminating all human jobs"], correct: 1 }
+        ];
+
+        let currentQuestionIndex = 0;
+        let optionsLocked = false;
+
+        function loadQuestion() {
+            const questionEl = document.getElementById("question");
+            const optionsEl = document.getElementById("options");
+            const nextButton = document.getElementById("next-button");
+            const retryButton = document.getElementById("retry-button");
+            
+            optionsLocked = false;
+            questionEl.textContent = questions[currentQuestionIndex].question;
+            optionsEl.innerHTML = "";
+            nextButton.style.display = "none";
+            retryButton.style.display = "none";
+
+            questions[currentQuestionIndex].options.forEach((option, index) => {
+                const button = document.createElement("button");
+                button.textContent = option;
+                button.classList.add("option");
+                button.onclick = () => checkAnswer(index, button);
+                optionsEl.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedIndex, button) {
+            if (optionsLocked) return;
+            optionsLocked = true;
+            const correctSound = document.getElementById("correct-sound");
+            const wrongSound = document.getElementById("wrong-sound");
+
+            if (selectedIndex === questions[currentQuestionIndex].correct) {
+                button.classList.add("correct");
+                correctSound.currentTime = 0;
+                correctSound.play().catch(error => console.log("Autoplay failed: ", error));
+                document.getElementById("next-button").style.display = "flex";
+            } else {
+                button.classList.add("wrong");
+                wrongSound.currentTime = 0;
+                wrongSound.play().catch(error => console.log("Autoplay failed: ", error));
+                document.getElementById("retry-button").style.display = "flex";
+            }
+        }
+
+        function nextQuestion() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+        loadQuestion();
+    } else {
+        document.getElementById("quiz").innerHTML = `
+            <h2>Congratulations! Eleven's powers have gotten much stronger thanks to your help! She manages to defeat the Demogorgon in one shot.</h2>
+            <button id="next-button" class="next-button" onclick="location.href='page11.html'">Next</button>
+        `;
+    }
+}
+
+
+        function retryQuestion() {
+            loadQuestion();
+        }
+
+        document.addEventListener("DOMContentLoaded", loadQuestion);
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const audio = document.getElementById('bg-audio');
+            function enableAudioPlayback() {
+                if (audio.paused) {
+                    audio.play().catch(error => console.log("Playback failed", error));
+                }
+                document.body.removeEventListener('click', enableAudioPlayback);
+            }
+            document.body.addEventListener('click', enableAudioPlayback);
+        });
+    </script>
+</body>
+</html>
+
+
+

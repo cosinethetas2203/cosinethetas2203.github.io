@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+
+        body {
+            font-family: "American Typewriter", "Special Elite", "Courier New", Courier, monospace;
+            text-align: center;
+            background-color: white;
+            color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        .container {
+            width: 960px;
+            height: 540px;
+            background: url('onlyroom.png') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            position: relative;
+            border: 2px solid black; 
+            box-sizing: border-box;
+            overflow: hidden;
+            transition: background-image 0.5s ease-in-out;
+        }
+
+        .dialogue-box {
+            width: 90%;
+            height: auto;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            padding-top: 35px;
+            display: none;
+        }
+
+        .center-dialogue-box { bottom: 40%; }
+        .bottom-dialogue-box { bottom: 30px; }
+
+        .character-name {
+            position: absolute;
+            top: -40px; 
+            left: 20px;
+            background: rgb(255, 60, 60);
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 10px 15px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            border-radius: 10px 10px 0 0;
+            display: none;
+        }
+
+        .next-section {
+            position: absolute;
+            bottom: 5px;
+            right: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 5px 15px;
+            background: transparent;
+            color: rgb(255, 60, 60);
+            cursor: pointer;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            transition: color 0.3s ease-in-out;
+        }
+
+        .next-section:hover { color: rgb(255, 90, 90); }
+    </style>
+</head>
+<body>
+    <audio id="bg-audio" loop>
+        <source src="bonjovimusic.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container" id="background">
+        <div id="dialogue-box" class="dialogue-box">
+            <div id="character-name" class="character-name"></div>
+            <p id="dialogue-text"></p>
+            <div class="next-section" id="next-button" onclick="nextDialogue()">▶ Next</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const audio = document.getElementById('bg-audio');
+            function enableAudioPlayback() {
+                if (audio.paused) {
+                    audio.play().catch(error => console.log("Playback failed", error));
+                }
+                document.body.removeEventListener('click', enableAudioPlayback);
+            }
+            document.body.addEventListener('click', enableAudioPlayback);
+        });
+
+        const dialogues = [
+            { text: "It is July 1983 in Hawkins. Will is seen trying out the brand new computer his family just bought. Suddenly, he comes across a present-day invention, Generative AI models.", speaker: "", background: "onlyroom.png", position: "center" },
+            { text: "Curious, he starts by asking the model his Science homework questions.", speaker: "", background: "onlyroom.png", position: "center" },
+            { text: "WOAH! It...answered instantly and it's...correct! HOW?", speaker: "Will", background: "onlywillinroom.png", position: "bottom" },
+            { text: "This is sooo helpful. I'm going to ask more questions! Let me just copy this down first...", speaker: "Will", background: "onlywillinroom.png", position: "bottom", isLast: true }
+        ];
+
+        let index = 0;
+        function nextDialogue() {
+            if (index < dialogues.length) {
+                const dialogueData = dialogues[index];
+
+                document.getElementById("background").style.backgroundImage = `url('${dialogueData.background}')`;
+
+                document.getElementById("dialogue-text").textContent = dialogueData.text;
+
+                const nameBox = document.getElementById("character-name");
+                if (dialogueData.speaker) {
+                    nameBox.textContent = dialogueData.speaker;
+                    nameBox.style.display = "block";
+                } else {
+                    nameBox.style.display = "none";
+                }
+
+                const dialogueBox = document.getElementById("dialogue-box");
+                dialogueBox.className = "dialogue-box " + (dialogueData.position === "center" ? "center-dialogue-box" : "bottom-dialogue-box");
+
+                dialogueBox.style.display = "block";
+
+                const nextButton = document.getElementById("next-button");
+                if (dialogueData.isLast) {
+                    nextButton.innerHTML = `<a href="page3.html" style="text-decoration: none; color: rgb(255, 60, 60);">▶ Next</a>`;
+                    nextButton.onclick = null; 
+                } else {
+                    nextButton.innerHTML = "▶ Next";
+                    nextButton.onclick = nextDialogue; 
+                }
+
+                index++;
+            }
+        }
+        nextDialogue();
+        
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+        
+        body {
+            font-family: "American Typewriter", "Special Elite", "Courier New", Courier, monospace;
+            text-align: center;
+            background-color: white;
+            color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        .container {
+            width: 960px;
+            height: 540px;
+            background: url('scoopsahoy.png') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            border: 2px solid black;
+            box-sizing: border-box;
+            overflow: hidden;
+            transition: background-image 0.5s ease-in-out;
+        }
+
+        .dialogue-box {
+            width: 90%;
+            max-width: 600px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+            position: absolute;
+            text-align: left;
+        }
+
+        #intro-box {
+            text-align: center;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        #step-box {
+            right: 10px;
+            color: black;
+        }
+
+        .next-section {
+            position: absolute;
+            bottom: 5px;
+            right: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 3px 10px;
+            background: transparent;
+            color: hotpink;
+            cursor: pointer;
+        }
+
+        .next-section:hover { color: rgb(247, 166, 207); }
+
+        .ice-cream-container {
+            position: absolute;
+            top: 20%;
+            left: 20%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .cone {
+            width: 0;
+            height: 10;
+            border-left: 60px solid transparent;
+            border-right: 60px solid transparent;
+            border-top: 180px solid rgb(255, 235, 101);
+            position: relative;
+            top: -30px;
+            left: -20px;
+            z-index: 3;
+            display: none;
+        }
+        .whipped-cream {
+            width: 0;
+            height: 0;
+            border-left: 60px solid transparent;
+            border-right: 60px solid transparent;
+            border-bottom: 120px solid white;
+            position: relative;
+            top: 30px;
+            left: -20px;
+            z-index: 3;
+            display: none;
+        }
+
+        .cherry {
+            background: red;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            position: relative;
+            top: 35px;
+            left: -20px;
+            z-index: 4;
+            display: none;
+        }
+
+        .scoop {
+            background: rgb(122, 54, 5);
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            position: relative;
+            top: 10px;
+            left: -20px;
+            z-index: 2;
+            display: none;
+        }
+
+        .character-name {
+            position: absolute;
+            top: -40px;
+            left: 20px;
+            background: hotpink;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 8px 12px;
+            border-radius: 10px 10px 0 0;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <audio id="bgm" loop>
+        <source src="Material girl in mall.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container" id="container">
+        <div id="intro-box" class="dialogue-box">
+            <p><strong>How does Generative AI work?</strong></p>
+            <p>Generative AI uses machine learning techniques like deep learning and neural networks to recognise patterns in massive datasets and generate similar outputs. Build your own ice cream cone to find out the three key steps!</p>
+            <div class="next-section" onclick="startBuilding()">▶ Next</div>
+        </div>
+
+        <div class="ice-cream-container" id="ice-cream-container">
+            <div class="layer cherry"></div>
+            <div class="layer whipped-cream"></div>
+            <div class="layer scoop"></div>
+            <div class="cone"></div>
+        </div>
+
+        <div class="dialogue-box" id="step-box" style="display: none;">
+            <p id="step-text"></p>
+            <div class="next-section" onclick="nextStep()">▶ Next</div>
+        </div>
+
+        <div id="eleven-box" class="dialogue-box" style="display: none; bottom: 20px;">
+            <div id="character-name" class="character-name">Eleven</div>
+            <p>Will! Where on earth are you?</p>
+            <div class="next-section" onclick="goToNextPage()">▶ Next</div>
+        </div>
+    </div>
+
+    <script>
+        let step = 0;
+        const steps = [
+            { text: "Training - The AI learns from vast datasets (e.g., millions of images or text samples)!", class: "scoop", color: "rgb(122, 54, 5)", textColor: "white"},
+            { text: "Processing - It understands patterns, relationships, and structures in the data!", class: "whipped-cream", color: "white" },
+            { text: "Generating - Based on user input (a prompt), it creates an output, just like finishing with a cherry on top!", class: "cherry", color: "red", textColor: "white" }
+        ];
+
+        function startBuilding() {
+            document.getElementById("intro-box").style.display = "none";
+            document.getElementById("step-box").style.display = "block";
+            document.querySelector(".cone").style.display = "block";
+            nextStep();
+        }
+
+        function nextStep() {
+            if (step < steps.length) {
+                document.getElementById("step-text").innerText = steps[step].text;
+                document.getElementById("step-box").style.backgroundColor = steps[step].color;
+                document.getElementById("step-box").style.color = steps[step].textColor || "black";
+                document.querySelector(`.layer.${steps[step].class}`).style.display = "block";
+                step++;
+            } else {
+                document.getElementById("step-box").style.display = "none";
+                document.getElementById("eleven-box").style.display = "block";
+                document.getElementById("character-name").style.display = "block";
+                document.getElementById("container").style.background = "url('scoopsahoyel.png') center/cover no-repeat";
+                document.getElementById("ice-cream-container").style.display = "none"; 
+            }
+        }
+        function playBGM() {
+            const bgm = document.getElementById("bgm");
+            bgm.play().catch(err => console.log("Autoplay blocked:", err));
+        }
+        document.body.addEventListener("click", playBGM, { once: true });
+
+        function goToNextPage() {
+            window.location.href = 'page7.html';
+        }
+    </script>
+</body>
+</html>
+

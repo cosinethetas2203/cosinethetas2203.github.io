@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+
+        body {
+            font-family: "American Typewriter", "Special Elite", "Courier New", Courier, monospace;
+            text-align: center;
+            background-color: white;
+            color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        .container {
+            width: 960px;
+            height: 540px;
+            background: url('elanddemoinUD.png') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            border: 2px solid black;
+            box-sizing: border-box;
+            overflow: hidden;
+            transition: background-image 0.5s ease-in-out;
+        }
+
+        .dialogue-box {
+            width: 90%;
+            height: 70px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            padding-top: 35px;
+            text-align: center;
+        }
+
+        .bottom { bottom: 30px; }
+        .center { top: 50%; transform: translate(-50%, -50%); }
+
+        .character-name {
+            position: absolute;
+            top: -53px;
+            left: 20px;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 12px 18px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            border-radius: 10px 10px 0 0;
+            display: block;
+        }
+
+        .next-section {
+            position: absolute;
+            bottom: 5px;
+            right: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 3px 10px;
+            background: transparent;
+            cursor: pointer;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            transition: color 0.3s ease-in-out;
+        }
+
+        .next-section:hover { color: rgb(94, 143, 249); }
+
+        .eleven { background: hotpink; }
+        .will { background: rgb(255, 60, 60); }
+        .demogorgon { background: black; }
+    </style>
+</head>
+<body>
+    <audio id="bg-audio" loop>
+        <source src="The Upside Down.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="disappear-sound">
+        <source src="disappear.mp3" type="audio/mpeg">
+    </audio>
+    <div class="container" id="background">
+        <div id="dialogue-box" class="dialogue-box bottom">
+            <div id="character-name" class="character-name demogorgon">Demogorgon</div>
+            <p id="dialogue">THIS...isn't...over...</p>
+            <div class="next-section" onclick="nextDialogue()">▶ Next</div>
+        </div>
+    </div>
+
+    <script>
+        let dialogues = [
+            { text: "THIS...isn't...over...", position: "bottom", bg: "elanddemoinUD.png", speaker: "Demogorgon", color: "demogorgon" },
+            { text: "Hah...pathetic.", position: "bottom", bg: "elinUD2.png", speaker: "Eleven", color: "eleven" },
+            { text: "Thank you...so much El...I owe you big time.", position: "bottom", bg: "elandwillinUD.png", speaker: "Will", color: "will" },
+            { text: "Just then, a portal opens beside them, which transports them to Roane Hill Cemetery back in Hawkins. They both enter the portal.", position: "center", bg: "elandwillinUD.png" }
+        ];
+
+        let index = 0;
+
+        function nextDialogue() {
+            index++;
+            if (index < dialogues.length) {
+                document.getElementById("dialogue").innerText = dialogues[index].text;
+                document.getElementById("dialogue-box").className = `dialogue-box ${dialogues[index].position}`;
+                document.getElementById("background").style.backgroundImage = `url('${dialogues[index].bg}')`;
+                
+                let nameBox = document.getElementById("character-name");
+                if (dialogues[index].speaker) {
+                    nameBox.innerText = dialogues[index].speaker;
+                    nameBox.className = `character-name ${dialogues[index].color}`;
+                    nameBox.style.display = "block";
+                } else {
+                    nameBox.style.display = "none";
+                }
+
+                if (index === 1) {
+                    document.getElementById("disappear-sound").play();
+                }
+
+                let nextButton = document.querySelector(".next-section");
+                if (index === dialogues.length - 1) {
+                    nextButton.innerHTML = "<span>Next</span>";
+                    nextButton.onclick = function () {
+                        window.location.href = 'page12.html';
+                    };
+                }
+            } else {
+                window.location.href = 'page12.html';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const audio = document.getElementById('bg-audio');
+            function enableAudioPlayback() {
+                if (audio.paused) {
+                    audio.play().catch(error => console.log("Playback failed", error));
+                }
+                document.body.removeEventListener('click', enableAudioPlayback);
+            }
+            document.body.addEventListener('click', enableAudioPlayback);
+        });
+    </script>
+</body>
+</html>
+

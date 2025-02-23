@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+
+        body {
+            font-family: "American Typewriter", "Special Elite", "Courier New", Courier, monospace;
+            text-align: center;
+            background-color: white;
+            color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        .container {
+            width: 960px;
+            height: 540px;
+            background: url('elandwillincemetery.png') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            border: 2px solid black;
+            box-sizing: border-box;
+            overflow: hidden;
+            transition: background-image 0.5s ease-in-out;
+        }
+
+        .dialogue-box {
+            width: 90%;
+            height: 70px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            padding-top: 35px;
+            text-align: center;
+        }
+
+        .bottom { bottom: 30px; }
+        .center { top: 50%; transform: translate(-50%, -50%); }
+
+        .character-name {
+            position: absolute;
+            top: -53px;
+            left: 20px;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 12px 18px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            border-radius: 10px 10px 0 0;
+            display: block;
+        }
+
+        .next-section {
+            position: absolute;
+            bottom: 5px;
+            right: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 3px 10px;
+            background: transparent;
+            cursor: pointer;
+            text-shadow: 1px 1px 3px rgba(237, 237, 237, 0.751);
+            transition: color 0.3s ease-in-out;
+        }
+
+        .next-section:hover { color: rgb(131, 102, 58); }
+
+        .playagain-button {
+            padding: 15px 30px;
+            font-size: 24px;
+            background-color: rgb(115, 9, 9);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .playagain-button span {
+            font-family: "Special Elite", cursive;
+        }
+
+        .playagain-button:hover {
+            background-color: rgb(67, 1, 1);
+        }
+
+        .eleven { background: hotpink; }
+        .will { background: rgb(255, 60, 60); }
+    </style>
+</head>
+<body>
+    <audio id="bg-audio" loop>
+        <source src="running up that hill.mp3" type="audio/mpeg">
+    </audio>
+    <div class="container" id="background">
+        <div id="dialogue-box" class="dialogue-box bottom">
+            <div id="character-name" class="character-name will">Will</div>
+            <p id="dialogue">I still don't know how I ended up there...</p>
+            <div class="next-section" id="next-button" onclick="nextDialogue()">▶ Next</div>
+        </div>
+    </div>
+
+    <script>
+        let dialogues = [
+            { text: "I still don't know how I ended up there...", position: "bottom", bg: "elandwillincemetery.png", speaker: "Will", color: "will" },
+            { text: "Well you did use AI unethically...", position: "bottom", bg: "elandwillincemetery.png", speaker: "Eleven", color: "eleven" },
+            { text: "Eleven tells Will whatever she learnt throughout this adventure, educating him on Generative AI.", position: "center", bg: "elandwillincemetery.png" },
+            { text: "Ohh...so that's how I ended up there...Gee thanks El, I'll definitely be more careful when using Generative AI in the future!", position: "bottom", bg: "elandwillincemetery.png", speaker: "Will", color: "will" },
+            { text: "Thank you for playing Stranger Things: Generative AI! We hope you've learnt something new! If you'd like to play again, click on the button below!", position: "center", bg: "cemetery.png" }
+        ];
+
+        let index = 0;
+
+        function nextDialogue() {
+            index++;
+            if (index < dialogues.length) {
+                document.getElementById("dialogue").innerText = dialogues[index].text;
+                document.getElementById("dialogue-box").className = `dialogue-box ${dialogues[index].position}`;
+                document.getElementById("background").style.backgroundImage = `url('${dialogues[index].bg}')`;
+
+                let nameBox = document.getElementById("character-name");
+                if (dialogues[index].speaker) {
+                    nameBox.innerText = dialogues[index].speaker;
+                    nameBox.className = `character-name ${dialogues[index].color}`;
+                    nameBox.style.display = "block";
+                } else {
+                    nameBox.style.display = "none";
+                }
+
+                if (index === dialogues.length - 1) {
+                    document.getElementById("next-button").style.display = "none";
+                    document.getElementById("dialogue-box").innerHTML += '<br><button class="playagain-button" onclick="restartGame()"><span>Play Again</span></button>';
+                }
+            }
+        }
+
+        function restartGame() {
+            window.location.href = 'page1.html';
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            const audio = document.getElementById('bg-audio');
+            function enableAudioPlayback() {
+                if (audio.paused) {
+                    audio.play().catch(error => console.log("Playback failed", error));
+                }
+                document.body.removeEventListener('click', enableAudioPlayback);
+            }
+            document.body.addEventListener('click', enableAudioPlayback);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+
+        body {
+            font-family: "American Typewriter", "Special Elite", "Courier New", Courier, monospace;
+            text-align: center;
+            background-color: white;
+            color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        .container {
+            width: 960px;
+            height: 540px;
+            background: url('onlywillinud.png') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            position: relative;
+            border: 2px solid black; 
+            box-sizing: border-box;
+            overflow: hidden;
+            transition: background-image 0.5s ease-in-out;
+        }
+
+        .dialogue-box {
+            width: 90%;
+            height: 70px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            padding-top: 35px;
+        }
+
+        .center-dialogue-box { bottom: 40%; }
+        .bottom-dialogue-box { bottom: 30px; }
+
+        .character-name {
+            position: absolute;
+            top: -53px;
+            left: 20px;
+            background: rgb(255, 60, 60);
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 12px 18px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            border-radius: 10px 10px 0 0;
+            display: none;
+        }
+
+        .next-section {
+            position: absolute;
+            bottom: 5px;
+            right: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 3px 10px;
+            background: transparent;
+            color: rgb(255, 255, 255);
+            cursor: pointer;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            transition: color 0.3s ease-in-out;
+        }
+
+        .next-section:hover {
+            color: rgb(203, 203, 203);
+        }
+    </style>
+</head>
+<body>
+    <audio id="bg-audio" loop>
+        <source src="The Upside Down.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container" id="scene-container">
+        <div id="will" class="character"></div>
+        <div id="demogorgon" class="character"></div>
+        <div id="dialogue-box" class="dialogue-box center-dialogue-box">
+            <p id="dialogue">Right as he finishes copying, he is suddenly transported to the Upside Down.</p>
+            <div id="character-name" class="character-name"></div>
+            <div class="next-section" onclick="nextDialogue()">▶ Next</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const audio = document.getElementById('bg-audio');
+    
+            function enableAudioPlayback() {
+                if (audio.paused) {
+                    audio.play().catch(error => console.log("Playback failed", error));
+                }
+                document.body.removeEventListener('click', enableAudioPlayback);
+            }
+    
+            document.body.addEventListener('click', enableAudioPlayback);
+        });
+
+        const dialogues = [
+            { text: "Right as he finishes copying, he is suddenly transported to the Upside Down.", speaker: "", color: "transparent", position: "center" },
+            { text: "What's happening...I'm really spooked out right now...", speaker: "Will", color: "rgb(255, 60, 60)", position: "bottom" },
+            { text: "GRRR...You can run but you can't hide!", speaker: "Demogorgon", color: "black", background: "willanddemoinud.png", position: "bottom" }
+        ];
+
+        let index = 0;
+
+        function nextDialogue() {
+            index++;
+            if (index < dialogues.length) {
+                document.getElementById("dialogue").textContent = dialogues[index].text;
+                let nameBox = document.getElementById("character-name");
+
+                if (dialogues[index].speaker) {
+                    nameBox.textContent = dialogues[index].speaker;
+                    nameBox.style.background = dialogues[index].color;
+                    nameBox.style.display = "block";
+                } else {
+                    nameBox.style.display = "none";
+                }
+
+                if (dialogues[index].background) {
+                    document.getElementById("scene-container").style.backgroundImage = `url('${dialogues[index].background}')`;
+                }
+
+                const dialogueBox = document.getElementById("dialogue-box");
+                dialogueBox.className = "dialogue-box " + (dialogues[index].position === "center" ? "center-dialogue-box" : "bottom-dialogue-box");
+
+                if (dialogues[index].speaker === "Demogorgon") {
+                    document.getElementById("will").style.opacity = "0";
+                    document.getElementById("demogorgon").style.opacity = "1";
+                    document.querySelector(".next-section").setAttribute("onclick", "goToPage4()");
+                }
+            }
+        }
+
+        function goToPage4() {
+            window.location.href = 'page4.html';
+        }
+    </script>
+</body>
+</html>
+
+
+
+
