@@ -99,14 +99,14 @@
             z-index: 10;
         }
 
-        /* Responsive Scaling */
-        @media only screen and (max-width: 767px) and (orientation: landscape) {
-            .container {
-                width: 90vw;
-                max-width: 100%;
-                transform: scale(0.8);
-            }
-        }
+     @media only screen and (max-width: 767px) and (orientation: landscape) {
+    .container {
+        width: 100vw;
+        height: 56.25vw; /* Maintain 16:9 aspect ratio (9 / 16 * 100) */
+        max-width: 100%;
+        max-height: 100vh;
+    }
+}
 
         /* Portrait Mode Overlay */
         @media only screen and (orientation: portrait) {
