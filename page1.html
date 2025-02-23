@@ -98,13 +98,15 @@
             z-index: 10;
         }
 
- @media only screen and (max-width: 767px) and (orientation: landscape) {
-    .container {
-        width: 100vw;
-        height: 56.25vw; 
-        max-width: 100%;
-        max-height: 100vh;
-}
+        iframe {
+            width: 960px;
+            height: 540px;
+            aspect-ratio: 16/9;
+            border: none;
+            background-color: aliceblue;
+            overflow: hidden;
+        }
+
         @media only screen and (orientation: portrait) {
             #overlay {
                 display: flex;
@@ -113,7 +115,6 @@
     </style>
 </head>
 <body>
-
     <div id="overlay">
         <div>
             <p>Please rotate your screen</p>
@@ -127,6 +128,7 @@
             <button class="start-button" onclick="location.href='page2.html'">
                 <span>Start</span>
             </button>
+            <iframe src="./iframe-template_files/pic.html"></iframe>
         </div>
     </div>
 
@@ -160,7 +162,6 @@
             document.body.addEventListener('click', enableAudioPlayback);
         });
     </script>
-
 </body>
 </html>
 
