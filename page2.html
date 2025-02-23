@@ -35,6 +35,19 @@
             overflow: hidden;
             transition: background-image 0.5s ease-in-out;
         }
+                     @media only screen 
+            and (min-device-width: 375px) 
+            and (orientation: portrait) { 
+                #overlay {
+                    top:0;
+                }
+            }
+            @media only screen 
+            and (max-width: 767px) and (orientation: landscape) { 
+                #container{
+                    transform:scale(.6);
+                }
+            }
 
         .dialogue-box {
             width: 90%;
