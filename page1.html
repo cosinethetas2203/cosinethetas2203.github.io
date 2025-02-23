@@ -96,12 +96,6 @@
             font-size: 24px;
             z-index: 10;
         }
-
-        @media only screen and (max-width: 767px) and (orientation: portrait) { 
-            #overlay {
-                display: flex;
-            }
-        }
     </style>
 </head>
 <body>
@@ -129,6 +123,18 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const audio = document.getElementById('bg-audio');
+            const overlay = document.getElementById('overlay');
+
+            function checkOrientation() {
+                if (window.innerHeight > window.innerWidth) {
+                    overlay.style.display = "flex";
+                } else {
+                    overlay.style.display = "none";
+                }
+            }
+
+            checkOrientation();
+            window.addEventListener('resize', checkOrientation);
     
             function enableAudioPlayback() {
                 if (audio.paused) {
@@ -143,8 +149,6 @@
 
 </body>
 </html>
-
-
 
 
 
