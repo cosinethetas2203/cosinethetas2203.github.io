@@ -18,29 +18,10 @@
             overflow: hidden;
             margin: 0;
         }
-    
-    #overlay {
-        background: rgba(0, 0, 0, 0.8);
-        width: 100vw;
-        height: 100vh;
-        display: none;
-        justify-content: center;
-        align-items: center;
-        position: fixed; /* Changed from absolute to fixed */
-        top: 0;
-        left: 0;
-        text-align: center;
-        color: white;
-        font-size: 24px;
-        z-index: 10;
-    }
-    
-    .container {
+  .container {
         position: relative;
-        height: 100vh;
         width: 80vw;
         max-width: 960px;
-        max-height: 540px;
         height: auto;
         aspect-ratio: 16 / 9;
         display: flex;
@@ -58,23 +39,86 @@
         background-position: center;
         z-index: 0; 
     }
-    
-    @media only screen and (min-device-width: 375px) and (orientation: portrait) { 
-        #overlay {
-            top: 0;
+
+        .dialogue-box {
+            width: 90%;
+            height: 70px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            padding-top: 35px;
         }
+           #overlay {
+        background: rgba(0, 0, 0, 0.8);
+        width: 100vw;
+        height: 100vh;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        text-align: center;
+        color: white;
+        font-size: 24px;
+        z-index: 10;
     }
-    
-    @media only screen and (max-width: 767px) and (orientation: landscape) { 
-        .container { /* Changed from #container to .container */
-            transform: scale(0.6);
+
+        .center-dialogue-box { bottom: 40%; }
+        .bottom-dialogue-box { bottom: 30px; }
+
+        .character-name {
+            position: absolute;
+            top: -53px;
+            left: 20px;
+            background: rgb(255, 60, 60);
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 12px 18px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            border-radius: 10px 10px 0 0;
+            display: none;
         }
-    }
+
+        .next-section {
+            position: absolute;
+            bottom: 5px;
+            right: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 3px 10px;
+            background: transparent;
+            color: rgb(255, 255, 255);
+            cursor: pointer;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            transition: color 0.3s ease-in-out;
+        }
+
+        .next-section:hover {
+            color: rgb(203, 203, 203);
+        }
+                       @media only screen 
+        and (min-device-width: 375px) 
+        and (orientation: portrait) { 
+            #overlay {
+                top:0;
+            }
+        }
+        @media only screen 
+        and (max-width: 767px) and (orientation: landscape) { 
+            .container{
+                transform:scale(.6);
+            }
+        }
     </style>
 </head>
 <body>
-    <div id="overlay">Rotate your device for a better experience</div> <!-- Added overlay div -->
-    
+    <div id="overlay">Please rotate your device</div>
     <audio id="bg-audio" loop>
         <source src="The Upside Down.mp3" type="audio/mpeg">
     </audio>
@@ -139,19 +183,19 @@
                 }
             }
         }
-
-        function checkOrientation() {
-            const overlay = document.getElementById("overlay"); // Fix here
-            if (window.innerHeight > window.innerWidth) {
-                overlay.style.display = "flex";
-            } else {
-                overlay.style.display = "none";
-            }
+       function checkOrientation() {
+        const overlay = document.getElementById("overlay"); 
+        if (window.innerHeight > window.innerWidth) {
+            overlay.style.display = "flex";
+        } else {
+            overlay.style.display = "none";
         }
-
-        checkOrientation();
-        window.addEventListener('resize', checkOrientation);
-
+    }    
+    
+    checkOrientation();
+    window.addEventListener('resize', checkOrientation);
+        index++;
+    }
         function goToPage4() {
             window.location.href = 'page4.html';
         }
