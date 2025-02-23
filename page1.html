@@ -19,25 +19,17 @@
             position: relative;
         }
         
-.container {
-    position: relative;
-    width: 80vw; /* Scales with screen width */
-    max-width: 960px; /* Ensures it doesn't exceed desktop size */
-    height: auto; /* Adjust height dynamically */
-    aspect-ratio: 16 / 9; /* Maintains 16:9 aspect ratio */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Scaling for smaller screens */
-@media only screen and (max-width: 767px) {
-    .container {
-        width: 90vw; /* Uses more screen space */
-    }
-}
-
+        .container {
+            position: relative;
+            width: 80vw;
+            max-width: 960px;
+            height: auto;
+            aspect-ratio: 16 / 9;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
         
         .background-container {
             position: absolute;
@@ -106,6 +98,22 @@
             font-size: 24px;
             z-index: 10;
         }
+
+        /* Responsive Scaling */
+        @media only screen and (max-width: 767px) and (orientation: landscape) {
+            .container {
+                width: 90vw;
+                max-width: 100%;
+                transform: scale(0.8);
+            }
+        }
+
+        /* Portrait Mode Overlay */
+        @media only screen and (orientation: portrait) {
+            #overlay {
+                display: flex;
+            }
+        }
     </style>
 </head>
 <body>
@@ -159,6 +167,7 @@
 
 </body>
 </html>
+
 
 
 
