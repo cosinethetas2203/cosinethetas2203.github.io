@@ -19,19 +19,41 @@
             margin: 0;
         }
 
-        .container {
-            width: 960px;
-            height: 540px;
-            background: url('onlywillinud.png') center/cover no-repeat;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            align-items: center;
-            position: relative;
-            border: 2px solid black; 
-            box-sizing: border-box;
-            overflow: hidden;
-            transition: background-image 0.5s ease-in-out;
+       .container {
+        position: relative;
+        height: 100vh;
+        width: 80vw;
+        max-width: 960px;
+        max-height: 540px;
+        height: auto;
+        aspect-ratio: 16 / 9;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .background-container {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-image: url('onlywillinud.png'); 
+        background-size: cover;
+        background-position: center;
+        z-index: 0; 
+    }
+                 @media only screen 
+        and (min-device-width: 375px) 
+        and (orientation: portrait) { 
+            #overlay {
+                top:0;
+            }
+        }
+        @media only screen 
+        and (max-width: 767px) and (orientation: landscape) { 
+            #container{
+                transform:scale(.6);
+            }
         }
 
         .dialogue-box {
@@ -148,6 +170,17 @@
                 }
             }
         }
+              function checkOrientation() {
+        if (window.innerHeight > window.innerWidth) {
+            overlay.style.display = "flex";
+        } else {
+            overlay.style.display = "none";
+        }
+    }
+    checkOrientation();
+    window.addEventListener('resize', checkOrientation);
+        index++;
+    }
 
         function goToPage4() {
             window.location.href = 'page4.html';
