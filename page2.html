@@ -80,9 +80,46 @@
         }
 
         .next-section:hover { color: rgb(255, 90, 90); }
+
+        #overlay {
+            background: rgba(0, 0, 0, 0.8);
+            width: 100vw;
+            height: 100vh;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            z-index: 10;
+        }
+
+        @media only screen and (max-width: 767px) and (orientation: landscape) {
+            .container {
+                width: 100vw;
+                height: 56.25vw; 
+                max-width: 100%;
+                max-height: 100vh;
+            }
+        }
+        
+        @media only screen and (orientation: portrait) {
+            #overlay {
+                display: flex;
+            }
+        }
     </style>
 </head>
 <body>
+    <div id="overlay">
+        <div>
+            <p>Please rotate your screen</p>
+        </div>
+    </div>
+
     <audio id="bg-audio" loop>
         <source src="bonjovimusic.mp3" type="audio/mpeg">
     </audio>
@@ -98,12 +135,26 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const audio = document.getElementById('bg-audio');
+            const overlay = document.getElementById('overlay');
+
+            function checkOrientation() {
+                if (window.innerHeight > window.innerWidth) {
+                    overlay.style.display = "flex";
+                } else {
+                    overlay.style.display = "none";
+                }
+            }
+
+            checkOrientation();
+            window.addEventListener('resize', checkOrientation);
+    
             function enableAudioPlayback() {
                 if (audio.paused) {
                     audio.play().catch(error => console.log("Playback failed", error));
                 }
                 document.body.removeEventListener('click', enableAudioPlayback);
             }
+    
             document.body.addEventListener('click', enableAudioPlayback);
         });
 
@@ -120,9 +171,8 @@
                 const dialogueData = dialogues[index];
 
                 document.getElementById("background").style.backgroundImage = `url('${dialogueData.background}')`;
-
                 document.getElementById("dialogue-text").textContent = dialogueData.text;
-
+                
                 const nameBox = document.getElementById("character-name");
                 if (dialogueData.speaker) {
                     nameBox.textContent = dialogueData.speaker;
@@ -133,28 +183,23 @@
 
                 const dialogueBox = document.getElementById("dialogue-box");
                 dialogueBox.className = "dialogue-box " + (dialogueData.position === "center" ? "center-dialogue-box" : "bottom-dialogue-box");
-
                 dialogueBox.style.display = "block";
 
                 const nextButton = document.getElementById("next-button");
                 if (dialogueData.isLast) {
                     nextButton.innerHTML = `<a href="page3.html" style="text-decoration: none; color: rgb(255, 60, 60);">▶ Next</a>`;
-                    nextButton.onclick = null; 
+                    nextButton.onclick = null;
                 } else {
                     nextButton.innerHTML = "▶ Next";
-                    nextButton.onclick = nextDialogue; 
+                    nextButton.onclick = nextDialogue;
                 }
-
                 index++;
             }
         }
         nextDialogue();
-        
     </script>
 </body>
 </html>
-
-
 
 
 
