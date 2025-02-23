@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
-    
     <style>
         body {
             margin: 0;
@@ -13,10 +12,10 @@
             align-items: center;
             text-align: center;
             color: white;
-            overflow: hidden;
+            overflow: hidden; 
             background: #FFFFFF;
             font-family: "American Typewriter", "Special Elite", "Courier New", Courier, monospace;
-            height: 100vh;
+            height: 100vh; 
             position: relative;
         }
         
@@ -28,7 +27,6 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 1;
         }
         
         .background-container {
@@ -38,7 +36,7 @@
             background-image: url('Title_Sequence.gif'); 
             background-size: cover;
             background-position: center;
-            z-index: 0;
+            z-index: 0; 
         }
         
         .content {
@@ -48,71 +46,70 @@
             justify-content: space-between;
             align-items: center;
             height: 100%;
-            z-index: 1;
+            z-index: 1; 
         }
         
         .heading {
             font-size: 36px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
             margin-top: 20px;
         }
         
         .start-button {
-            padding: 15px 30px;
-            font-size: 24px;
+            padding: 15px 30px; 
+            font-size: 24px; 
             background-color: rgb(115, 9, 9);
             color: white;
             border: none;
             cursor: pointer;
             transition: 0.3s;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
         }
-        
         .start-button span {
             font-family: "Special Elite", cursive;
         }
-        
+
         .start-button:hover {
             background-color: rgb(67, 1, 1);
         }
         
         .subtext {
-            font-size: 20px;
+            font-size: 20px; 
             margin-top: 40px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); 
         }
-        
+
+        /* Overlay for portrait mode */
         #overlay {
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.8);
             width: 100vw;
             height: 100vh;
-            display: flex;
+            display: none;
             justify-content: center;
             align-items: center;
             position: absolute;
-            top: -100vh;
-            color: whitesmoke;
+            top: 0;
+            left: 0;
             text-align: center;
-            flex-direction: column;
+            color: white;
+            font-size: 24px;
+            z-index: 10;
         }
-        
-        @media only screen and (min-device-width: 375px) and (orientation: portrait) {
+
+        @media only screen and (max-width: 767px) and (orientation: portrait) { 
             #overlay {
-                top: 0;
+                display: flex;
             }
         }
     </style>
 </head>
 <body>
+
     <div id="overlay">
-        <svg fill="#ffffff" width="150" height="150" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 214.367 214.367">
-            <path d="M202.403,95.22c0,46.312-33.237,85.002-77.109,93.484v25.663l-69.76-40l69.76-40v23.494
-                c27.176-7.87,47.109-32.964,47.109-62.642c0-35.962-29.258-65.22-65.22-65.22s-65.22,29.258-65.22,65.22
-                c0,9.686,2.068,19.001,6.148,27.688l-27.154,12.754c-5.968-12.707-8.994-26.313-8.994-40.441C11.964,42.716,54.68,0,107.184,0
-                S202.403,42.716,202.403,95.22z"></path>
-        </svg>
-        <h1>Please rotate your screen</h1>
+        <div>
+            <p>Please rotate your screen</p>
+        </div>
     </div>
 
     <div class="container">
@@ -143,6 +140,7 @@
             document.body.addEventListener('click', enableAudioPlayback);
         });
     </script>
+
 </body>
 </html>
 
